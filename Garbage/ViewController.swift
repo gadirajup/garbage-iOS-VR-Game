@@ -40,7 +40,8 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     private func drawSphere() {
         let sphere = SCNNode(geometry: SCNSphere(radius: 0.05))
-        sphere.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
+        sphere.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "earth")
+        sphere.geometry?.firstMaterial?.specular.contents = UIColor.white
         sphere.position = SCNVector3(0, 0, 0)
         sceneView.scene.rootNode.addChildNode(sphere)
     }
