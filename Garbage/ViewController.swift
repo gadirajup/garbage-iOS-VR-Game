@@ -19,9 +19,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.delegate = self
         sceneView.showsStatistics = true
         sceneView.debugOptions = [.showWorldOrigin, .showFeaturePoints]
-        sceneView.automaticallyUpdatesLighting = true
+        sceneView.autoenablesDefaultLighting = true
         
         drawSphere()
+        drawBox()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,5 +43,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sphere.geometry?.firstMaterial?.diffuse.contents = UIColor.blue
         sphere.position = SCNVector3(0, 0, 0)
         sceneView.scene.rootNode.addChildNode(sphere)
+    }
+    
+    private func drawBox() {
+        let box = SCNNode(geometry: SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0))
+        box.geometry?.firstMaterial?.diffuse.contents = UIColor.orange
+        box.geometry?.firstMaterial?.specular.contents = UIColor.white
+        box.position = SCNVector3(0, 0.2, -0.3)
+        sceneView.scene.rootNode.addChildNode(box)
     }
 }
