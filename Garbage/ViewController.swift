@@ -23,6 +23,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         drawSphere()
         drawBox()
+        drawTorus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,5 +53,19 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         box.geometry?.firstMaterial?.specular.contents = UIColor.white
         box.position = SCNVector3(0, 0.2, -0.3)
         sceneView.scene.rootNode.addChildNode(box)
+    }
+    
+    private func drawTorus(){
+        let torus = SCNNode(geometry: SCNTorus(ringRadius: 0.06, pipeRadius: 0.03))
+        torus.geometry?.firstMaterial?.diffuse.contents = UIColor.purple
+        torus.geometry?.firstMaterial?.specular.contents = UIColor.white
+        torus.position = SCNVector3(-0.2, 0, 0)
+        torus.eulerAngles = .init(90.toRadians(), 0, 0)
+        sceneView.scene.rootNode.addChildNode(torus)
+        
+        let action = SCNAction.rotate(by: 360.toRadians(), around: .init(0, 1, 0), duration: 8)
+        let repeatAction = SCNAction.repeatForever(action)
+        
+        torus.runAction(repeatAction)
     }
 }
