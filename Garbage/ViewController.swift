@@ -12,7 +12,11 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
+    // MARK: - Properties
+    
     @IBOutlet var sceneView: ARSCNView!
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +25,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.debugOptions = [.showWorldOrigin, .showFeaturePoints]
         sceneView.autoenablesDefaultLighting = true
         
-        drawSphere()
-        drawBox()
-        drawTorus()
+        //drawSphere()
+        //drawBox()
+        //drawTorus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = [.horizontal, .vertical]
         sceneView.session.run(configuration)
     }
     
@@ -38,6 +43,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         sceneView.session.pause()
     }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        guard let anchor = anchor as? ARPlaneAnchor else { return }
+        print("Found \(anchor.classification) plane with alignment \(anchor.alignment)")
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, willUpdate node: SCNNode, for anchor: ARAnchor) {
+        
+    }
+    
+    // MARK: - Helpers
     
     private func drawSphere() {
         let sphere = SCNNode(geometry: SCNSphere(radius: 0.05))
